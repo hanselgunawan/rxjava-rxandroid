@@ -65,4 +65,6 @@ protected void onDestroy() {
 ```
 #### CompositeDisposable's clear() vs dispose()
 When you are using `CompositeDisposable`, if you call `dispose()` method, you will **no longer be able** to add disposables to that composite disposable.
-But if you call to `clear()` method you can still add disposable to the composite disposable. `clear()` method just clears the disposables that are currently held within the instance. 
+But if you call to `clear()` method you can still add disposable to the composite disposable. `clear()` method just clears the disposables that are currently held within the instance.
+
+
