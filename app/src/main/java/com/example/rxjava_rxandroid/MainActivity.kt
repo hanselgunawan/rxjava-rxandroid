@@ -16,9 +16,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "myApp"
-    private lateinit var myObservable: Observable<String>
+    private lateinit var myObservable: Observable<Int>
 
-    private lateinit var myObserver: DisposableObserver<String>
+    private lateinit var myObserver: DisposableObserver<Int>
 
     private lateinit var myText: TextView
 
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         myText = findViewById(R.id.tvGreeting)
 
-        myObservable = Observable.fromIterable(greetings)
+        myObservable = Observable.range(1, 20)
 
         composite.add(
             myObservable
@@ -41,10 +41,10 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun getObserver(): DisposableObserver<String> {
-        myObserver = object : DisposableObserver<String>() {
+    private fun getObserver(): DisposableObserver<Int> {
+        myObserver = object : DisposableObserver<Int>() {
 
-            override fun onNext(t: String) {
+            override fun onNext(t: Int) {
                 Log.i(TAG, "onNext invoked $t")
             }
 
