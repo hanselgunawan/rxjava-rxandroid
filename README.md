@@ -104,3 +104,36 @@ onNext(t: String) {
   println(t) // will print each string, e.g: "A", "B", and "C"
 }
 ```
+
+### fromArray
+It creates an Observable from a set of items of the array using an `Iterable`.
+
+**Java**
+```
+private Observable<String> myObservable;
+private  DisposableObserver<String> myObserver;
+
+private String[] greetings = {"a","b","c"};
+
+myObservable = Observable.fromArray(greetings)
+```
+
+BUT, we can't do that in Kotlin.
+
+`arrayOf()` in Kotlin returns primitive type. That means `arrayOf(1,2,3)` will return `int[]` which is NOT supported by `fromArray()`.
+`fromArray()` only accept `Object[]`, such as `String[]`, `Integer[]`, `Float[]`, etc.
+[[Read Here](https://github.com/ReactiveX/RxJava/wiki/Creating-Observables#fromarray)].
+
+In Kotlin, we can use `fromIterable()` with `listOf()` to implement the same thing.
+
+**Kotlin**
+```
+private lateinit var myObservable: Observable<String>
+private lateinit var myObserver: DisposableObserver<String>
+private val greetings = listOf("Hello A", "Hello B", "Hello C")
+
+myObservable = Observable.fromIterable(greetings)
+```
+
+It will loop through every single item inside the array.
+
