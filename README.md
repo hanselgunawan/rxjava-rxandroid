@@ -137,3 +137,13 @@ myObservable = Observable.fromIterable(greetings)
 
 It will loop through every single item inside the array.
 
+### Range
+`range()` operator create an Observable that emits a particular range of sequential integers.
+![Screen Shot 2022-10-02 at 4 35 07 PM](https://user-images.githubusercontent.com/10084360/193481261-f3dee523-d437-49c5-8ce2-82f50bb275cc.png)
+
+```
+myObservable.range(1,20)
+```
+It will print integer from `1` to `20`.
+
+
