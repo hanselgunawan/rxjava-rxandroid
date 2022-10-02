@@ -16,7 +16,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "myApp"
-    private val greeting: String = "Hello from RxJava"
     private lateinit var myObservable: Observable<String>
 
     private lateinit var myObserver: DisposableObserver<String>
@@ -24,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var myText: TextView
 
     private val composite: CompositeDisposable = CompositeDisposable()
+    private val greetings = listOf("Hello A", "Hello B", "Hello C")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +31,21 @@ class MainActivity : AppCompatActivity() {
 
         myText = findViewById(R.id.tvGreeting)
 
-        myObservable = Observable.just(greeting)
+        myObservable = Observable.fromIterable(greetings)
 
+        composite.add(
+            myObservable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(getObserver())
+        )
+    }
+
+    private fun getObserver(): DisposableObserver<String> {
         myObserver = object : DisposableObserver<String>() {
 
             override fun onNext(t: String) {
-                Log.i(TAG, "onNext invoked")
-                myText.text = t
+                Log.i(TAG, "onNext invoked $t")
             }
 
             override fun onError(e: Throwable) {
@@ -50,11 +58,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        composite.add(
-            myObservable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(myObserver)
-        )
+        return myObserver
     }
 }
