@@ -6,6 +6,8 @@ import android.util.Log
 import android.widget.TextView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableEmitter
+import io.reactivex.rxjava3.core.ObservableOnSubscribe
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -16,14 +18,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "myApp"
-    private lateinit var myObservable: Observable<Int>
+    private lateinit var myObservable: Observable<Student>
 
-    private lateinit var myObserver: DisposableObserver<Int>
+    private lateinit var myObserver: DisposableObserver<Student>
 
     private lateinit var myText: TextView
 
     private val composite: CompositeDisposable = CompositeDisposable()
-    private val greetings = listOf("Hello A", "Hello B", "Hello C")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +32,20 @@ class MainActivity : AppCompatActivity() {
 
         myText = findViewById(R.id.tvGreeting)
 
-        myObservable = Observable.range(1, 20)
+        myObservable = Observable.create { emitter ->
+
+            try {
+                val studentArrayList = getStudents()
+
+                for (student in studentArrayList) {
+                    emitter.onNext(student)
+                }
+
+                emitter.onComplete()
+            } catch (e: Exception) {
+                emitter.onError(e)
+            }
+        }
 
         composite.add(
             myObservable
@@ -41,11 +55,11 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun getObserver(): DisposableObserver<Int> {
-        myObserver = object : DisposableObserver<Int>() {
+    private fun getObserver(): DisposableObserver<Student> {
+        myObserver = object : DisposableObserver<Student>() {
 
-            override fun onNext(t: Int) {
-                Log.i(TAG, "onNext invoked $t")
+            override fun onNext(t: Student) {
+                Log.i(TAG, "onNext invoked ${t.email}")
             }
 
             override fun onError(e: Throwable) {
@@ -59,5 +73,46 @@ class MainActivity : AppCompatActivity() {
         }
 
         return myObserver
+    }
+
+    private fun getStudents(): ArrayList<Student> {
+        val students: ArrayList<Student> = ArrayList()
+
+        val student1 = Student(
+            "student 1",
+            "student1@gmail.com",
+            27
+        )
+        students.add(student1)
+
+        val student2 = Student(
+            "student 2",
+            "student2@gmail.com",
+            20
+        )
+        students.add(student2)
+
+        val student3 = Student(
+            "student 3",
+            "student3@gmail.com",
+            20
+        )
+        students.add(student3)
+
+        val student4 = Student(
+            "student 4",
+            "student4@gmail.com",
+            20
+        )
+        students.add(student4)
+
+        val student5 = Student(
+            "student 5",
+            "student5@gmail.com",
+            20
+        )
+        students.add(student5)
+
+        return students
     }
 }
