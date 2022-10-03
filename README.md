@@ -164,3 +164,42 @@ It will print integer from `1` to `20`.
     }
 }
 ```
+
+### Map
+`map()` operator transforms the items emitted by an Observable by applying a function to each item.
+
+```
+composite.add(
+    myObservable
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .map {
+            it.name = it.name?.uppercase()
+            it
+        }
+        .subscribeWith(getObserver())
+)
+```
+
+It will return all names with UPPERCASE letters.
+
+Take a look at this code:
+```
+.map {
+    it.name = it.name?.uppercase()
+}
+```
+It will return an error. Why? Because we don't return anything!
+
+How to return in Kotlin lambda function? 
+
+`Put the returned item on the last line of the lambda function`
+[Read Here](https://stackoverflow.com/questions/53509536/mapping-custom-data-rxandroid-with-kotlin/53514768#53514768)
+
+The correct code:
+```
+.map {
+    it.name = it.name?.uppercase()
+    it // this one is ESSENTIAL! This is the returned item
+}
+```
