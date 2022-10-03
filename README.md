@@ -146,4 +146,21 @@ myObservable.range(1,20)
 ```
 It will print integer from `1` to `20`.
 
+### Create
+`create()` creates an Observable from scratch. With `create()` method, we can have a function body. So, we can have some control over our data before the emition.
 
+![Screen Shot 2022-10-02 at 5 14 03 PM](https://user-images.githubusercontent.com/10084360/193482722-6600cb10-e1d2-42cb-8d5d-6897099ac274.png)
+
+```
+ myObservable = Observable.create { emitter ->
+    try {
+        val studentArrayList = getStudents()
+        for (student in studentArrayList) {
+            emitter.onNext(student)
+        }
+        emitter.onComplete()
+    } catch (e: Exception) {
+        emitter.onError(e)
+    }
+}
+```
