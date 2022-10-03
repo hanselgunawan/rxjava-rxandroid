@@ -215,3 +215,5 @@ The difference is `map()` returns an `item`, BUT `flatMap()` returns `Observable
 }
 ```
 ![Screen Shot 2022-10-02 at 6 50 57 PM](https://user-images.githubusercontent.com/10084360/193488113-a78b4013-8f53-4480-9bb1-06d0f9b49974.png)
+
+`flatMap` is good to map over asynchronous operations.
