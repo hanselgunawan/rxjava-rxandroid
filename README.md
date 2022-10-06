@@ -236,4 +236,5 @@ The `buffer()` operator will gather emissions within a certain scope and emit **
 
 Here we can see that `Observable` is emitting items per batch of 4 items.
 
+![Screen Shot 2022-10-05 at 6 57 27 PM](https://user-images.githubusercontent.com/10084360/194197273-69046cd3-4e4f-4992-a45a-101cc6511c82.png)
 
