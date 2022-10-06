@@ -232,9 +232,12 @@ On above picture, we can see that the order of emitted item `Student` is **ORDER
 ### Buffer
 The `buffer()` operator will gather emissions within a certain scope and emit **each batch** as a list or another collection type.
 
+![Screen Shot 2022-10-05 at 6 57 27 PM](https://user-images.githubusercontent.com/10084360/194197273-69046cd3-4e4f-4992-a45a-101cc6511c82.png)
+
+**Example:**
+
 ![Screen Shot 2022-10-05 at 6 55 51 PM](https://user-images.githubusercontent.com/10084360/194197053-aed863b9-f4d0-4000-a622-b09f331eea87.png)
 
 Here we can see that `Observable` is emitting items per batch of 4 items.
 
-![Screen Shot 2022-10-05 at 6 57 27 PM](https://user-images.githubusercontent.com/10084360/194197273-69046cd3-4e4f-4992-a45a-101cc6511c82.png)
 
