@@ -216,4 +216,12 @@ The difference is `map()` returns an `item`, BUT `flatMap()` returns `Observable
 ```
 ![Screen Shot 2022-10-02 at 6 50 57 PM](https://user-images.githubusercontent.com/10084360/193488113-a78b4013-8f53-4480-9bb1-06d0f9b49974.png)
 
-`flatMap` is good to map over asynchronous operations.
+`flatMap` is good to map over asynchronous operations because it DOES NOT care about the order. Some of the `Observable` might be faster than the others.
+
+![Screen Shot 2022-10-05 at 6 28 51 PM](https://user-images.githubusercontent.com/10084360/194193699-9a11ba4a-b2e2-4e1b-a76f-98a3b497eda3.png)
+
+On above picture, we can see that the order of emitted item `Student` is **NOT** ordered.
+
+### ConcatMap
+`concatMap()` is almost the same like `flatMap`. The difference is `concatMap()` CARES about the order. It emits the emissions from two or more Observables without interleaving them.
+
