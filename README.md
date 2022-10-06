@@ -240,4 +240,12 @@ The `buffer()` operator will gather emissions within a certain scope and emit **
 
 Here we can see that `Observable` is emitting items per batch of 4 items.
 
+### Filter
+`filter()` operator filters an `Observable` by making sure that emitted items match specified condition.
+
+![Screen Shot 2022-10-05 at 8 30 39 PM](https://user-images.githubusercontent.com/10084360/194207884-67e1023d-9b0e-4453-8f0f-409c64679453.png)
+
+**Example:**
+
+![Screen Shot 2022-10-05 at 8 31 12 PM](https://user-images.githubusercontent.com/10084360/194207951-e8af8058-1036-4b03-9c0a-cffa7ac4603b.png)
 
