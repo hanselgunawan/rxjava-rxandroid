@@ -46,17 +46,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         composite.add(
-            myObservable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .concatMap {
-                    val delay = (0..10).random()
-                    it.name = it.name?.uppercase()
-                    Observable
-                        .just(it)
-                        .delay(delay.toLong(), TimeUnit.SECONDS)
+            Observable
+                .range(1, 50)
+                .buffer(4)
+                .subscribe {
+                    println("Received: $it")
                 }
-                .subscribeWith(getObserver())
         )
     }
 
