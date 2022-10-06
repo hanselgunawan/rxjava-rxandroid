@@ -225,3 +225,8 @@ On above picture, we can see that the order of emitted item `Student` is **NOT**
 ### ConcatMap
 `concatMap()` is almost the same like `flatMap`. The difference is `concatMap()` CARES about the order. It emits the emissions from two or more Observables without interleaving them.
 
+![Screen Shot 2022-10-05 at 6 31 16 PM](https://user-images.githubusercontent.com/10084360/194193939-31ffc6ca-e3c4-4834-befe-f06fb462df6c.png)
+
+On above picture, we can see that the order of emitted item `Student` is **ORDERED**.
+
+
