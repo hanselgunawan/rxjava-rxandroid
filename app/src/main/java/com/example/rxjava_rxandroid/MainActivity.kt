@@ -51,6 +51,13 @@ class MainActivity : AppCompatActivity() {
             myObservable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .flatMap {
+                    val student1 = Student(
+                        it.name
+                    )
+                    it.name = it.name?.uppercase()
+                    Observable.just(it)
+                }
                 .subscribeWith(getObserver())
         )
     }
@@ -59,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         myObserver = object : DisposableObserver<Student>() {
 
             override fun onNext(t: Student) {
-                Log.i(TAG, "onNext invoked ${t.email}")
+                Log.i(TAG, "onNext invoked ${t.name}")
             }
 
             override fun onError(e: Throwable) {
