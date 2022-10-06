@@ -249,3 +249,63 @@ Here we can see that `Observable` is emitting items per batch of 4 items.
 
 ![Screen Shot 2022-10-05 at 8 31 12 PM](https://user-images.githubusercontent.com/10084360/194207951-e8af8058-1036-4b03-9c0a-cffa7ac4603b.png)
 
+#### take
+`.take(n)` operator emits the first *n* items.
+
+**Example:**
+
+![Screen Shot 2022-10-05 at 8 36 31 PM](https://user-images.githubusercontent.com/10084360/194208507-e4fa5a28-8807-4aba-b8cd-81a488ec2001.png)
+
+#### takeWhile
+`.takeWhile()` operator will keep emitting items until it encounters a first element that **doesn't match** the `Predicate`.
+
+**Example:**
+
+![Screen Shot 2022-10-05 at 8 39 00 PM](https://user-images.githubusercontent.com/10084360/194208802-e36fd1b9-2970-4c65-baf8-f05964c88da1.png)
+
+#### takeFirst
+`.takeFirst()` will emit only the first item matching a given condition.
+
+**BUT**, `takeFirst()` is DEPRECATED on RxJava2.
+
+So, to implement it with RxJava3, we can use: `.take(1)`.
+
+#### first
+`.first(default)` will emit only the first item matching a given condition. It's supported on RxJava3.
+
+**Example:**
+
+![Screen Shot 2022-10-05 at 8 44 55 PM](https://user-images.githubusercontent.com/10084360/194209528-64f66af2-1b5b-4fef-9d31-06d39594218f.png)
+
+#### firstOrDefault
+`firstOrDefault(default)` is DEPRECATED on RxJava2.
+
+#### takeLast
+`.takeLast(<NUM_OF_ITEMS>)` will emit the last *n* items. 
+
+**Example:**
+
+![Screen Shot 2022-10-05 at 8 51 47 PM](https://user-images.githubusercontent.com/10084360/194210230-7a15d079-338e-41bb-93b7-6cbb07155ac6.png)
+
+#### last
+`.last(default)` will emit only the last item matching a given condition.
+
+**Example:**
+
+![Screen Shot 2022-10-05 at 8 52 56 PM](https://user-images.githubusercontent.com/10084360/194210331-f3f0a179-4071-4c33-8663-74b1ca806491.png)
+
+#### elementAt
+`.elementAt(index)` can pick a single item emitted by the source Observable, specifying its index.
+
+**Example:**
+
+![Screen Shot 2022-10-05 at 8 54 34 PM](https://user-images.githubusercontent.com/10084360/194210515-3c7b0f48-54e7-4ad6-ba74-4b363e42a59b.png)
+
+`.elementAt()` will throw an `IndexOutOfBoundException` if the specified index exceeds the number of items emitted.
+
+#### typeOf
+`.typeOf` operator will filter by its type.
+
+**Example:**
+
+![Screen Shot 2022-10-05 at 9 03 16 PM](https://user-images.githubusercontent.com/10084360/194211373-5808ea29-4a05-4d07-b069-f13ee3125bb6.png)
