@@ -373,6 +373,10 @@ subject.onCompleted();
 
 ![Screen Shot 2022-10-09 at 11 42 48 PM](https://user-images.githubusercontent.com/10084360/194810475-3d4265f2-1220-4cbc-875b-03794cde124c.png)
 
+**Example 3:**
+
+![Screen Shot 2022-10-09 at 11 55 54 PM](https://user-images.githubusercontent.com/10084360/194812108-77675636-210a-4f24-bd01-e1744743d1ba.png)
+
 ### BehaviorSubject
 `Subject` that emits the most recent item it has observed and ALL SUBSEQUENT observed items to each subscribed `Observer`.
 
