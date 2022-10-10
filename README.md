@@ -369,6 +369,9 @@ subject.onNext("three");
 subject.onCompleted();
 ```
 
+**Example 2:**
+
+![Screen Shot 2022-10-09 at 11 42 48 PM](https://user-images.githubusercontent.com/10084360/194810475-3d4265f2-1220-4cbc-875b-03794cde124c.png)
 
 ### BehaviorSubject
 `Subject` that emits the most recent item it has observed and ALL SUBSEQUENT observed items to each subscribed `Observer`.
@@ -429,4 +432,27 @@ subject.onComplete();
 // late Observers only receive the terminal event
 subject.test().assertEmpty();
 ```
+
+### ReplaySubject
+`ReplaySubject` emits all the items of the source `Observable`(s), **regardless** of when the `observer` subscribes.
+
+![Screen Shot 2022-10-09 at 11 16 22 PM](https://user-images.githubusercontent.com/10084360/194807640-c6d97421-f738-4b47-91db-cba69c206b4b.png)
+
+**Example 1:**
+
+```
+ReplaySubject<Object> subject = ReplaySubject.create();
+subject.onNext("one");
+subject.onNext("two");
+subject.onNext("three");
+subject.onComplete();
+
+// both of the following will get the onNext/onComplete calls from above
+subject.subscribe(observer1);
+subject.subscribe(observer2);
+```
+
+We can also specify last _n_ items that we want to get by using `ReplaySubject.createWithSize(n)`.
+
+![Screen Shot 2022-10-09 at 11 18 45 PM](https://user-images.githubusercontent.com/10084360/194807896-8b57e278-2ae4-48a9-8ea5-f4a5a6ca7363.png)
 
