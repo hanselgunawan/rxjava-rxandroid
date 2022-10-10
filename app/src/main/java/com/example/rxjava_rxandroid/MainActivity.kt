@@ -47,8 +47,8 @@ class MainActivity : AppCompatActivity() {
 
         composite.add(
             Observable
-                .just(1, "frank", 23, "sinatra")
-                .ofType(String::class.java)
+                .just(1, 1,2,3,3,4,5,5,9)
+                .distinct()
                 .subscribe (
                     {
                         println("Received: $it")
