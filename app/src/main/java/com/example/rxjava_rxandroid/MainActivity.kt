@@ -6,118 +6,119 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.observers.DisposableObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.schedulers.TestScheduler
+import io.reactivex.rxjava3.subjects.AsyncSubject
 import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "myApp"
-    private lateinit var myObservable: Observable<Student>
-
-    private lateinit var myObserver: DisposableObserver<Student>
-
-    private lateinit var myText: TextView
-
-    private val composite: CompositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        myText = findViewById(R.id.tvGreeting)
-
-        myObservable = Observable.create { emitter ->
-
-            try {
-                val studentArrayList = getStudents()
-
-                for (student in studentArrayList) {
-                    emitter.onNext(student)
-                }
-
-                emitter.onComplete()
-            } catch (e: Exception) {
-                emitter.onError(e)
-            }
-        }
-
-        composite.add(
-            Observable
-                .just(1, 1,2,3,3,4,5,5,9)
-                .distinct()
-                .subscribe (
-                    {
-                        println("Received: $it")
-                    },
-                    {
-                        println("NOT FOUND!")
-                    }
-                )
-        )
+//        asyncSubjectDemo1()
+        asyncSubjectDemo2()
     }
 
-    private fun getObserver(): DisposableObserver<Student> {
-        myObserver = object : DisposableObserver<Student>() {
+    private fun asyncSubjectDemo1() {
 
-            override fun onNext(t: Student) {
-                Log.i(TAG, "onNext invoked ${t.name}")
+        val observable: Observable<String> =
+            Observable
+                .just(
+                    "Apple",
+                    "Banana",
+                    "Cherry",
+                    "Dragonfruit"
+                )
+
+        val subject: AsyncSubject<String> = AsyncSubject.create()
+        observable.subscribe(subject)
+
+        subject.subscribe(getFirstObserver())
+        subject.subscribe(getSecondObserver())
+        subject.subscribe(getThirdObserver())
+    }
+
+    private fun asyncSubjectDemo2() {
+
+        val subject: AsyncSubject<String> = AsyncSubject.create()
+        subject.subscribe(getFirstObserver())
+        subject.onNext("Apple")
+        subject.onNext("Banana")
+
+        subject.subscribe(getSecondObserver())
+        subject.onNext("Cherry")
+        subject.onComplete()
+
+        subject.subscribe(getThirdObserver())
+    }
+
+    private fun getFirstObserver(): Observer<String> {
+        return object : Observer<String> {
+            override fun onSubscribe(d: Disposable) {
+                println("First Observer onSubscribe")
+            }
+
+            override fun onNext(t: String) {
+                println("First Observer Received $t")
             }
 
             override fun onError(e: Throwable) {
-                Log.i(TAG, "onError invoked")
+                println("First Observer onError")
             }
 
             override fun onComplete() {
-                Log.i(TAG, "onComplete invoked")
+                println("First Observer onComplete")
+            }
+        }
+    }
+
+    private fun getSecondObserver(): Observer<String> {
+        return object : Observer<String> {
+            override fun onSubscribe(d: Disposable) {
+                println("Second Observer onSubscribe")
             }
 
+            override fun onNext(t: String) {
+                println("Second Observer Received $t")
+            }
+
+            override fun onError(e: Throwable) {
+                println("Second Observer onError")
+            }
+
+            override fun onComplete() {
+                println("Second Observer onComplete")
+            }
         }
-
-        return myObserver
     }
 
-    private fun getStudents(): ArrayList<Student> {
-        val students: ArrayList<Student> = ArrayList()
+    private fun getThirdObserver(): Observer<String> {
+        return object : Observer<String> {
+            override fun onSubscribe(d: Disposable) {
+                println("Third Observer onSubscribe")
+            }
 
-        val student1 = Student(
-            "student 1",
-            "student1@gmail.com",
-            27
-        )
-        students.add(student1)
+            override fun onNext(t: String) {
+                println("Third Observer Received $t")
+            }
 
-        val student2 = Student(
-            "student 2",
-            "student2@gmail.com",
-            20
-        )
-        students.add(student2)
+            override fun onError(e: Throwable) {
+                println("Third Observer onError")
+            }
 
-        val student3 = Student(
-            "student 3",
-            "student3@gmail.com",
-            20
-        )
-        students.add(student3)
-
-        val student4 = Student(
-            "student 4",
-            "student4@gmail.com",
-            20
-        )
-        students.add(student4)
-
-        val student5 = Student(
-            "student 5",
-            "student5@gmail.com",
-            20
-        )
-        students.add(student5)
-
-        return students
+            override fun onComplete() {
+                println("Third Observer onComplete")
+            }
+        }
     }
+
 }
