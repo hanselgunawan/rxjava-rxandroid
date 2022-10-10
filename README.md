@@ -319,10 +319,29 @@ So, to implement it with RxJava3, we can use: `.take(1)`.
 ![Screen Shot 2022-10-09 at 5 12 41 PM](https://user-images.githubusercontent.com/10084360/194785847-9fe87f3b-4886-437e-b342-f1ce24b6d934.png)
 
 #### skip
-`.skip()` operator will suppress the first _n_ items emitted by an Observable.
+`.skip(n)` operator will suppress the first _n_ items emitted by an Observable.
 
 ![Screen Shot 2022-10-09 at 5 14 38 PM](https://user-images.githubusercontent.com/10084360/194785926-bf583fc4-0634-4a4a-8d64-accf66fe85a3.png)
 
 **Example:**
 ![Screen Shot 2022-10-09 at 5 25 30 PM](https://user-images.githubusercontent.com/10084360/194786308-8dc3e612-5be2-415d-b781-937f709f67de.png)
+
+#### skipLast
+`skipLast(n)` operator will skip the final _n_ items emitted by an Observable.
+
+![Screen Shot 2022-10-09 at 5 27 02 PM](https://user-images.githubusercontent.com/10084360/194786348-dff18bfb-4925-4426-80c4-fd249eddb09d.png)
+
+**Example:**
+
+![Screen Shot 2022-10-09 at 5 27 37 PM](https://user-images.githubusercontent.com/10084360/194786378-979c25a9-9c3f-41ba-8198-7c0317f2dab7.png)
+
+## Subject
+
+### Definition
+`Subject` can act as an `Observerable` as well as an `Observer`. `Subject` class is **extending** the `Observable` class and **implementing** the `Observer` interface. That's why it can act like both.
+
+A `Subject` is a sort of **bridge** or **proxy** that is available in some implementations of ReactiveX that acts both as an `observer` and as an `Observable`.
+Because it is an `Observer`, it can subscribe to one or more `Observables`, and because it is an `Observable`, it can pass through the items it observes by reemitting them, and it can also emit new items.
+
+There are **4 types of Subject**.
 
