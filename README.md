@@ -309,3 +309,12 @@ So, to implement it with RxJava3, we can use: `.take(1)`.
 **Example:**
 
 ![Screen Shot 2022-10-05 at 9 03 16 PM](https://user-images.githubusercontent.com/10084360/194211373-5808ea29-4a05-4d07-b069-f13ee3125bb6.png)
+
+#### distinct
+`.distinct()` operator will suppress duplicate items emitted by an Observable.
+
+![Screen Shot 2022-10-09 at 5 08 38 PM](https://user-images.githubusercontent.com/10084360/194785723-36af89f1-84a2-4598-a8ca-17d74f6008eb.png)
+
+**Example:**
+![Screen Shot 2022-10-09 at 5 12 41 PM](https://user-images.githubusercontent.com/10084360/194785847-9fe87f3b-4886-437e-b342-f1ce24b6d934.png)
+
