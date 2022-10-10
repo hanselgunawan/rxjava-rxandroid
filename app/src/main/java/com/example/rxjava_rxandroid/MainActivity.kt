@@ -47,11 +47,16 @@ class MainActivity : AppCompatActivity() {
 
         composite.add(
             Observable
-                .range(1, 50)
-                .buffer(4)
-                .subscribe {
-                    println("Received: $it")
-                }
+                .just(1, "frank", 23, "sinatra")
+                .ofType(String::class.java)
+                .subscribe (
+                    {
+                        println("Received: $it")
+                    },
+                    {
+                        println("NOT FOUND!")
+                    }
+                )
         )
     }
 
