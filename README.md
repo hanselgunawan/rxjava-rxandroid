@@ -345,3 +345,88 @@ Because it is an `Observer`, it can subscribe to one or more `Observables`, and 
 
 There are **4 types of Subject**.
 
+### AsyncSubject
+`AsyncSubject` only emits the last value of the `Observable` after the source has completed `onComplete()`.
+
+![Screen Shot 2022-10-09 at 10 43 25 PM](https://user-images.githubusercontent.com/10084360/194804635-41440344-0a67-48e8-b005-3dab5a8c8e78.png)
+
+**Example 1:**
+
+```
+// observer will receive no onNext events because the subject.onCompleted() isn't called.
+AsyncSubject<Object> subject = AsyncSubject.create();
+subject.subscribe(observer);
+subject.onNext("one");
+subject.onNext("two");
+subject.onNext("three");
+
+// observer will receive "three" as the only onNext event.
+AsyncSubject<Object> subject = AsyncSubject.create();
+subject.subscribe(observer);
+subject.onNext("one");
+subject.onNext("two");
+subject.onNext("three");
+subject.onCompleted();
+```
+
+
+### BehaviorSubject
+`Subject` that emits the most recent item it has observed and ALL SUBSEQUENT observed items to each subscribed `Observer`.
+
+![Screen Shot 2022-10-09 at 10 49 37 PM](https://user-images.githubusercontent.com/10084360/194805144-f6255510-eb20-4663-96e6-37a3957677fb.png)
+
+**Example 1:**
+
+```
+// observer will receive all 4 events (including "default").
+BehaviorSubject<Object> subject = BehaviorSubject.createDefault("default");
+subject.subscribe(observer);
+subject.onNext("one");
+subject.onNext("two");
+subject.onNext("three");
+
+// observer will receive the "one", "two" and "three" events, but not "zero"
+BehaviorSubject<Object> subject = BehaviorSubject.create();
+subject.onNext("zero");
+subject.onNext("one");
+subject.subscribe(observer);
+subject.onNext("two");
+subject.onNext("three");
+
+// observer will receive only onComplete
+BehaviorSubject<Object> subject = BehaviorSubject.create();
+subject.onNext("zero");
+subject.onNext("one");
+subject.onComplete();
+subject.subscribe(observer);
+
+// observer will receive only onError
+BehaviorSubject<Object> subject = BehaviorSubject.create();
+subject.onNext("zero");
+subject.onNext("one");
+subject.onError(new RuntimeException("error"));
+subject.subscribe(observer);
+```
+
+### PublishSubject
+`PublishSubject` emits ALL THE SUBSEQUENT items of the source `Observable` **at the time of subscription**.
+
+![Screen Shot 2022-10-09 at 10 54 14 PM](https://user-images.githubusercontent.com/10084360/194805535-b380050f-38a9-4674-9384-2e19b824622c.png)
+
+**Example 1:**
+
+```
+PublishSubject<Object> subject = PublishSubject.create();
+// observer1 will receive all onNext and onComplete events
+subject.subscribe(observer1);
+subject.onNext("one");
+subject.onNext("two");
+// observer2 will only receive "three" and onComplete
+subject.subscribe(observer2);
+subject.onNext("three");
+subject.onComplete();
+
+// late Observers only receive the terminal event
+subject.test().assertEmpty();
+```
+
