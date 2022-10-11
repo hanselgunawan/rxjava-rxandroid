@@ -473,6 +473,7 @@ We can also specify last _n_ items that we want to get by using `ReplaySubject.c
 ![Screen Shot 2022-10-09 at 11 18 45 PM](https://user-images.githubusercontent.com/10084360/194807896-8b57e278-2ae4-48a9-8ea5-f4a5a6ca7363.png)
 
 ## RxBinding
+`RxBinding` is used to convert `Android view events` into RxJava `Observables`. We no longer have to worry about `listeners`, `TextWatchers`, etc. RxBinding is giving us the ability to handle any Android UI event as an `Observable`.
 
 ### RxView.clicks
 [RxView Documentation](https://www.programcreek.com/java-api-examples/index.php?api=com.jakewharton.rxbinding2.view.RxView)
