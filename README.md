@@ -492,4 +492,4 @@ binding.materialbutton.clicks()
     }
 ```
 
-<img src="https://user-images.githubusercontent.com/10084360/195039911-a55e831c-dc64-4892-8d64-fec65152d324.png" height="800px" width="600px"/>
+<img src="https://user-images.githubusercontent.com/10084360/195039911-a55e831c-dc64-4892-8d64-fec65152d324.png" height="600px" width="250px"/>
