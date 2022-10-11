@@ -13,6 +13,7 @@ import io.reactivex.rxjava3.observers.DisposableObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.schedulers.TestScheduler
 import io.reactivex.rxjava3.subjects.AsyncSubject
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 
 
@@ -25,7 +26,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 //        asyncSubjectDemo1()
-        asyncSubjectDemo2()
+//        asyncSubjectDemo2()
+
+        behaviorSubjectDemo()
     }
 
     private fun asyncSubjectDemo1() {
@@ -59,6 +62,20 @@ class MainActivity : AppCompatActivity() {
         subject.onComplete()
 
         subject.subscribe(getThirdObserver())
+    }
+
+    private fun behaviorSubjectDemo() {
+
+        val subject: BehaviorSubject<String> = BehaviorSubject.create()
+        subject.subscribe(getFirstObserver())
+        subject.onNext("Apple")
+        subject.onNext("Banana")
+
+        subject.subscribe(getSecondObserver())
+        subject.onNext("Cherry")
+
+        subject.subscribe(getThirdObserver())
+        subject.onNext("Dragonfruit")
     }
 
     private fun getFirstObserver(): Observer<String> {
