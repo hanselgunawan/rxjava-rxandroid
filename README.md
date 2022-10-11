@@ -415,6 +415,10 @@ subject.onError(new RuntimeException("error"));
 subject.subscribe(observer);
 ```
 
+**Example 2:**
+
+![Screen Shot 2022-10-10 at 10 53 54 PM](https://user-images.githubusercontent.com/10084360/195007573-a1b6aa68-5bfb-4cbd-a608-a9b15a0e44fc.png)
+
 ### PublishSubject
 `PublishSubject` emits ALL THE SUBSEQUENT items of the source `Observable` **at the time of subscription**.
 
@@ -437,6 +441,10 @@ subject.onComplete();
 subject.test().assertEmpty();
 ```
 
+**Example 2:**
+
+![Screen Shot 2022-10-10 at 10 56 33 PM](https://user-images.githubusercontent.com/10084360/195007934-c3fded9f-98e6-4ca5-92aa-c6d2c944dcdd.png)
+
 ### ReplaySubject
 `ReplaySubject` emits all the items of the source `Observable`(s), **regardless** of when the `observer` subscribes.
 
@@ -455,6 +463,10 @@ subject.onComplete();
 subject.subscribe(observer1);
 subject.subscribe(observer2);
 ```
+
+**Example 2:**
+
+![Screen Shot 2022-10-10 at 10 59 02 PM](https://user-images.githubusercontent.com/10084360/195008296-084ce58e-9985-4f50-a6c8-31d23d9d96f2.png)
 
 We can also specify last _n_ items that we want to get by using `ReplaySubject.createWithSize(n)`.
 
