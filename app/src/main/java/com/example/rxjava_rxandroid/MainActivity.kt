@@ -15,6 +15,7 @@ import io.reactivex.rxjava3.schedulers.TestScheduler
 import io.reactivex.rxjava3.subjects.AsyncSubject
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
+import io.reactivex.rxjava3.subjects.ReplaySubject
 import java.util.concurrent.TimeUnit
 
 
@@ -31,7 +32,9 @@ class MainActivity : AppCompatActivity() {
 
 //        behaviorSubjectDemo()
 
-        publishSubjectDemo()
+//        publishSubjectDemo()
+
+        replaySubjectDemo()
     }
 
     private fun asyncSubjectDemo1() {
@@ -84,6 +87,20 @@ class MainActivity : AppCompatActivity() {
     private fun publishSubjectDemo() {
 
         val subject: PublishSubject<String> = PublishSubject.create()
+        subject.subscribe(getFirstObserver())
+        subject.onNext("Apple")
+        subject.onNext("Banana")
+
+        subject.subscribe(getSecondObserver())
+        subject.onNext("Cherry")
+
+        subject.subscribe(getThirdObserver())
+        subject.onNext("Dragonfruit")
+    }
+
+    private fun replaySubjectDemo() {
+
+        val subject: ReplaySubject<String> = ReplaySubject.create()
         subject.subscribe(getFirstObserver())
         subject.onNext("Apple")
         subject.onNext("Banana")
