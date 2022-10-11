@@ -476,3 +476,20 @@ We can also specify last _n_ items that we want to get by using `ReplaySubject.c
 
 ### RxView.clicks
 [RxView Documentation](https://www.programcreek.com/java-api-examples/index.php?api=com.jakewharton.rxbinding2.view.RxView)
+
+## Implementation of `.textChanges()` and `.clicks()`
+
+```
+binding.edittext.textChanges()
+    .subscribe {
+        binding.textview.text = it
+    }
+
+binding.materialbutton.clicks()
+    .subscribe {
+        binding.textview.text = ""
+        binding.edittext.setText("")
+    }
+```
+
+![Screenshot_1665477059](https://user-images.githubusercontent.com/10084360/195039911-a55e831c-dc64-4892-8d64-fec65152d324.png)
