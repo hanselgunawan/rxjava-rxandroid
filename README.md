@@ -478,6 +478,41 @@ We can also specify last _n_ items that we want to get by using `ReplaySubject.c
 ### RxView.clicks
 [RxView Documentation](https://www.programcreek.com/java-api-examples/index.php?api=com.jakewharton.rxbinding2.view.RxView)
 
+### RxTextView.textChangeEvents
+
+#### skipInitialValue()
+`skipInitialValue()` method is used to skip the default input value.
+
+#### distinctUntilChanged()
+`distinctUntilChanged()` method will ignore duplicate consecutive emmisions. It's very helpful to ignore repetitions until they really change.
+
+### debounce
+To delay user's events so it won't give errors.
+
+**Code Example**
+
+```
+RxTextView.textChangeEvents(searchEditText)
+  .skipInitialValue()
+  .debounce(300, TimeUnit.MILLISECONDS)
+  .distinctUntilChanged()
+  .subscribeOn(Schedulers.io())
+  .observeOn(AndroidSchedulers.mainThread())
+  .subscribeWith(new DisposableObserver<TextViewTextChangeEvent>() {
+      @Override
+      public void onNext(@NonNull TextViewTextChangeEvent textViewTextChangeEvent) {
+          goalAdapter.getFilter().filter(textViewTextChangeEvent.getText());
+      }
+
+      @Override
+      public void onError(@NonNull Throwable e) {}
+
+      @Override
+      public void onComplete() {}
+
+  })
+```
+
 ## Implementation of `.textChanges()` and `.clicks()`
 
 ```
