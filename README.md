@@ -529,3 +529,8 @@ binding.materialbutton.clicks()
 ```
 
 <img src="https://user-images.githubusercontent.com/10084360/195039911-a55e831c-dc64-4892-8d64-fec65152d324.png" height="400px" width="225px"/>
+
+## Retrofit
+
+### JSON to Data Class Kotlin - Online Generator
+https://json2kt.com/
