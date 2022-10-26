@@ -534,3 +534,145 @@ binding.materialbutton.clicks()
 
 ### JSON to Data Class Kotlin - Online Generator
 https://json2kt.com/
+
+## Flowable
+`Observables` are those entities which we observe for any event. Observables are used when we have **relatively few items** over the time and there is no risk of overflooding consumers. If there is a possibility that the consumer can be overflooded, then we use `Flowable`.
+
+### Type of BackpressureStrategy
+
+#### BackpressureStrategy.MISSING
+With MISSING strategy, as name suggests there is NO buffering or dropping. Subscriber must handle overflow else they will receive error.
+
+```
+val observable = PublishSubject.create<Int>()
+observable
+        .toFlowable(BackpressureStrategy.MISSING)
+        .observeOn(Schedulers.computation())
+        .subscribeBy (
+            onNext ={
+                println("number: ${it}")
+            },onError = {t->
+            print(t.message)
+        }
+        )
+        
+for (i in 0..1000000){
+    observable.onNext(i)
+}
+```
+
+The output would be:
+
+```
+Queue is full?!
+```
+
+This is because we haven’t specified any `BackpressureStrategy`, so it falls back to default which basically buffers upto 128 items in the queue. Hence the output Queue is full
+
+#### BackpressureStrategy.DROP
+It drops the items if it can’t handle more than it’s capacity i.e. 128 items (size of buffer).
+
+```
+RxNewThreadScheduler-1 | Publishing = 1
+RxNewThreadScheduler-1 | Publishing = 2
+RxNewThreadScheduler-1 | Publishing = 3
+RxNewThreadScheduler-1 | Publishing = 4
+RxNewThreadScheduler-1 | Publishing = 5
+.
+.
+.
+RxNewThreadScheduler-1 | Publishing = 126
+RxNewThreadScheduler-1 | Publishing = 127
+RxNewThreadScheduler-1 | Publishing = 128
+RxNewThreadScheduler-1 | DROPPED = 128
+RxNewThreadScheduler-1 | Publishing = 129
+RxNewThreadScheduler-1 | DROPPED = 129
+RxNewThreadScheduler-1 | Publishing = 130
+RxNewThreadScheduler-1 | DROPPED = 130
+RxNewThreadScheduler-1 | Publishing = 131
+RxNewThreadScheduler-1 | DROPPED = 131
+```
+
+After 128, it will start dropping.
+
+#### BackpressureStrategy.LATEST
+
+LATEST strategy keeps only the latest `onNext()` value, overwriting any previous value if the downstream can’t keep up because its too slow.
+
+```
+RxNewThreadScheduler-1 | Publishing = 1
+RxNewThreadScheduler-1 | Publishing = 2
+RxNewThreadScheduler-1 | Publishing = 3
+RxNewThreadScheduler-1 | Publishing = 4
+RxNewThreadScheduler-1 | Publishing = 5
+RxNewThreadScheduler-1 | Publishing = 6
+RxNewThreadScheduler-1 | Publishing = 7
+RxNewThreadScheduler-1 | Publishing = 8
+RxNewThreadScheduler-1 | Publishing = 9
+RxSingleScheduler-1 | Received = 1
+RxNewThreadScheduler-1 | Publishing = 10
+RxNewThreadScheduler-1 | Publishing = 11
+.
+.
+RxNewThreadScheduler-1 | Publishing = 989
+RxNewThreadScheduler-1 | Publishing = 990
+RxSingleScheduler-1 | Received = 103
+RxNewThreadScheduler-1 | Publishing = 991
+RxNewThreadScheduler-1 | Publishing = 992
+RxNewThreadScheduler-1 | Publishing = 993
+RxNewThreadScheduler-1 | Publishing = 994
+RxNewThreadScheduler-1 | Publishing = 995
+RxNewThreadScheduler-1 | Publishing = 996
+RxNewThreadScheduler-1 | Publishing = 997
+RxNewThreadScheduler-1 | Publishing = 998
+RxNewThreadScheduler-1 | Publishing = 999
+RxSingleScheduler-1 | Received = 104
+RxSingleScheduler-1 | Received = 105
+RxSingleScheduler-1 | Received = 106
+RxSingleScheduler-1 | Received = 107
+.
+.
+RxSingleScheduler-1 | Received = 125
+RxSingleScheduler-1 | Received = 126
+RxSingleScheduler-1 | Received = 127 // IT GETS CHANGED HERE!
+RxSingleScheduler-1 | Received = 923
+RxSingleScheduler-1 | Received = 924
+RxSingleScheduler-1 | Received = 925
+RxSingleScheduler-1 | Received = 926
+```
+
+We can see subscriber directly received 923 after 127. This means that after 127 (default buffer of 128), all values were **replaced with latest** & finally last values of 923 & above remained in buffer & received by subscriber.
+
+#### BackpressureStrategy.ERROR
+ERROR strategy `throws MissingBackpressureException` in case the downstream can’t keep up due to slowness. Publisher can handle exception & make sure to call `onError` handle so that subscriber can do handling on subscriber side for such error scenarios.
+
+```
+RxNewThreadScheduler-1 | Publishing = 0
+RxNewThreadScheduler-1 | Publishing = 1
+RxSingleScheduler-1 | Received = 0
+RxNewThreadScheduler-1 | Publishing = 2
+RxNewThreadScheduler-1 | Publishing = 3
+RxNewThreadScheduler-1 | Publishing = 4
+RxSingleScheduler-1 | Received = 1
+RxNewThreadScheduler-1 | Publishing = 5
+RxSingleScheduler-1 | Received = 2
+RxNewThreadScheduler-1 | Publishing = 6
+.
+.
+RxSingleScheduler-1 | Received = 308
+RxSingleScheduler-1 | Received = 309
+RxSingleScheduler-1 | Received = 310
+RxSingleScheduler-1 | Received = 311
+RxSingleScheduler-1 | Received = 312
+RxSingleScheduler-1 | Received = 313
+RxSingleScheduler-1 | Received = 314
+RxSingleScheduler-1 | Error = MissingBackpressureException create: could not emit value due to lack of requests
+RxNewThreadScheduler-1 | Publishing = 321
+RxNewThreadScheduler-1 | Publishing = 322
+RxNewThreadScheduler-1 | Publishing = 323
+RxNewThreadScheduler-1 | Publishing = 324
+```
+
+We can see in below output that publishing & subscribing started on different threads. Subscriber received values till 314 & then `onError` handler was called due to `MissingBackpressureException`. After that subscriber stopped.
+
+**Source:** https://itsallbinary.com/rxjava-basics-with-example-backpressure-drop-error-latest-missing-good-for-beginners/
